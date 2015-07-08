@@ -4,12 +4,9 @@ A way to retrieve large Hive results from Qubole Data Service (QDS), made for cl
 
 Installation
 ------------
-From Source
-~~~~~~~~~~~
 The only way to install iq-get, currently, is to install from source.
 
 * Download the source code: ``git clone git@github.com:MediaMath/get-qubole-results.git``
-
 * Run the following commands (installing the project may require root)
   ::
     $ cd get-qubole-results
@@ -19,7 +16,7 @@ The only way to install iq-get, currently, is to install from source.
 Usage
 -----
 This is a command-line utility and can be used as follows:
-  ::
+::
     $ iq-get -h
         | usage: iq-get [-h] [-o OUTPUT] [-d DELIMITER] Token Query_ID
         |
