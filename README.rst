@@ -7,10 +7,11 @@ Installation
 From Source
 ~~~~~~~~~~~
 The only way to install iq-get, currently, is to install from source.
+
 * Download the source code: ``git clone git@github.com:MediaMath/get-qubole-results.git``
 
 * Run the following commands (installing the project may require root)
-::
+  ::
     $ cd get-qubole-results
     $ python setup.py install
 
@@ -18,7 +19,7 @@ The only way to install iq-get, currently, is to install from source.
 Usage
 -----
 This is a command-line utility and can be used as follows:
-::
+  ::
     $ iq-get -h
         | usage: iq-get [-h] [-o OUTPUT] [-d DELIMITER] Token Query_ID
         |
@@ -33,6 +34,6 @@ This is a command-line utility and can be used as follows:
         |   -d DELIMITER, --delimiter DELIMITER
         |                         Custom delimiter you would like to use
 
-    $ iq-get QDS_API_TOKEN 1234567 # Will write a comma-delimited file with results of query with ID 1234567 to ~/Desktop/full_result_1234567.csv
-    $ iq-get QDS_API_TOKEN 1234567 -o my_filename.csv # Will write a comma-delimited file with results of query with ID 1234567 to ~/Desktop/my_filename.csv
-    $ iq-get QDS_API_TOKEN 1234567 -d $'\t' # Will write a tab-delimited file with results of query with ID 1234567 to ~/Desktop/full_result_1234567.tsv
+    $ iq-get QDS_API_TOKEN 1234567                      # Will write a comma-delimited file with results of query with ID 1234567 to ~/Desktop/full_result_1234567.csv
+    $ iq-get QDS_API_TOKEN 1234567 -o my_filename.csv   # Will write a comma-delimited file with results of query with ID 1234567 to ~/Desktop/my_filename.csv
+    $ iq-get QDS_API_TOKEN 1234567 -d $'\t'             # Will write a tab-delimited file with results of query with ID 1234567 to ~/Desktop/full_result_1234567.tsv
