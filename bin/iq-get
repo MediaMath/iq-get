@@ -17,6 +17,22 @@ except NameError:
 def write_intermediate_results(tmpFile, hc):
     hc.get_results(fp=tmpFile, delim='\t')
 
+
+def get_output_path(output_filename):
+    output_path = '%s%s' % (os.path.expanduser('~/Desktop/'), output_filename,)
+    # If the filename already exists, ask to overwrite it
+    if os.path.exists(output_path):
+        sys.stdout.write("File %s already exists.  Do you want to overwrite it? y/n\t" % output_path)
+        choice = input().lower()
+        if choice != 'y':
+            version = 1
+            filename, ext = os.path.splitext(output_path)
+            output_path = '%s(%d)%s' % (filename, version, ext,)
+            while os.path.exists(output_path):
+                version += 1
+                output_path = '%s(%d)%s' % (filename, version, ext,)
+    return output_path
+
 def main(args):
     Qubole.configure(api_token=args.Token)
     query_id = args.Query_ID
@@ -40,21 +56,12 @@ def main(args):
     except qds_sdk.exception.ResourceNotFound:
         sys.stderr.write("Invalid query ID.\n")
         sys.exit(-1)
-    tmp_out_path = os.path.expanduser('~/Desktop/') + out_file_name + '.tmp'
     with tempfile.TemporaryFile() as tmpFile:
         write_intermediate_results(tmpFile, hc)
         tmpFile.seek(0)
-        out_file_path = '%s%s' % (os.path.expanduser('~/Desktop/'), out_file_name,)
-        # If the filename already exists, ask to overwrite it
-        if os.path.exists(out_file_path):
-            sys.stdout.write("File %s already exists.  Do you want to overwrite it? y/n\t" % out_file_path)
-            choice = input().lower()
-            if choice != 'y':
-                filename, ext = os.path.splitext(out_file_path)
-                out_file_path = filename + '(1).' + ext
-                out_file_name = filename + '(1).' + ext
+        output_path = get_output_path(out_file_name)
         # Write results with the specified delimiter to the specified file path
-        with open(out_file_path, 'w') as out_file:
+        with open(output_path, 'w') as out_file:
             if delimiter == '\t':
                 writer = csv.writer(out_file, dialect='excel-tab',
                               quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
@@ -64,7 +71,7 @@ def main(args):
             for line in tmpFile:
                 sl = line.strip().split('\t')
                 writer.writerow(sl)
-    sys.stdout.write('Wrote file %s to desktop.\n' % out_file_name)
+    sys.stdout.write('Successfully wrote results to %s.\n' % output_path)
     sys.exit()
 
 if __name__ == '__main__':
