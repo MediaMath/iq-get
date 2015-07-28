@@ -6,8 +6,10 @@ import csv
 import os
 import sys
 import tempfile
+import time
 import qds_sdk
 from qds_sdk.commands import Qubole, HiveCommand
+from qds_sdk.exception import ServerError
 
 try:
     input = raw_input
@@ -21,7 +23,12 @@ def write_intermediate_results(tmpFile, hc):
     :param tmpFile: file Open file object to write intermediate results
     :param hc: HiveCommand HiveCommand object to use for retrieving results
     """
-    hc.get_results(fp=tmpFile, delim='\t')
+    try:
+        hc.get_results(fp=tmpFile, delim='\t')
+    except ServerError:
+        # If we hit a server error, retry once
+        time.sleep(10)
+        hc.get_results(fp=tmpFile, delim='\t')
 
 
 def get_output_path(output_filename):
@@ -32,7 +39,7 @@ def get_output_path(output_filename):
     output_path = '%s%s' % (os.path.expanduser('~/Desktop/'), output_filename,)
     # If the filename already exists, ask to overwrite it
     if os.path.exists(output_path):
-        sys.stdout.write("File %s already exists.  \
+        sys.stdout.write("File %s already exists.\n\
             Do you want to overwrite it? y/n\t" % output_path)
         choice = input().lower()
         if choice != 'y':
