@@ -1,5 +1,6 @@
 """Test IQ-Get"""
 
+from __future__ import print_function
 import argparse
 import csv
 import os
@@ -24,8 +25,9 @@ def teardown(files):
     Remove any files created as part of the test
     :params files: List[String] List of files to delete
     """
+    print('Removing created files')
     for f in files:
-        print f
+        print(f)
         os.remove(f)
     return
 
@@ -87,7 +89,7 @@ def main(args):
     if args.q is None:
         hc = setup()
         command_id = hc.id
-    print args.Token, command_id
+    print('Running tests with token %s and query ID %d' % (args.Token, command_id,))
     created_files = []
     created_files.append(test_download_without_filename(args.Token, command_id))
     created_files.append(test_download_no_overwrite(args.Token, command_id))
@@ -95,6 +97,7 @@ def main(args):
     created_files.append(download_with_filename(args.Token, command_id))
     created_files.append(download_with_tabs(args.Token, command_id))
     teardown(created_files)
+    print('All tests passed!')
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

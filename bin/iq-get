@@ -67,7 +67,7 @@ def write_final_output(out_file, delimiter, tmpFile):
         writer = csv.writer(out_file, delimiter=delimiter, dialect='excel',
                             quoting=csv.QUOTE_MINIMAL, lineterminator='\n')
     for line in tmpFile:
-        sl = line.strip().split('\t')
+        sl = line.decode('UTF-8').strip().split('\t')
         writer.writerow(sl)
 
 
