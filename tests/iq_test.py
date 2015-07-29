@@ -1,6 +1,7 @@
 """Test IQ-Get"""
 
 import argparse
+import csv
 import os
 import time
 import subprocess
@@ -18,11 +19,62 @@ def setup():
     hc = HiveCommand.run(query=TEST_QUERY)
     return hc
 
+def teardown(files):
+    """
+    Remove any files created as part of the test
+    :params files: List[String] List of files to delete
+    """
+    for f in files:
+        print f
+        os.remove(f)
+    return
+
 def test_download_without_filename(token, command_id):
     s = subprocess.check_call(['iq-get', token, str(command_id)])
     output_filename = 'full_result_%s.csv' % (str(command_id),)
     output_path = '%s%s' % (os.path.expanduser('~/Desktop/'), output_filename,)
     assert os.path.exists(output_path)
+    return output_path
+
+def test_download_no_overwrite(token, command_id):
+    s = subprocess.Popen(['iq-get', token, str(command_id)], stdout=subprocess.PIPE,
+                                                            stdin=subprocess.PIPE)
+    s.communicate("n")
+    output_filename = 'full_result_%s(1).csv' % (str(command_id),)
+    output_path = '%s%s' % (os.path.expanduser('~/Desktop/'), output_filename,)
+    assert os.path.exists(output_path)
+    return output_path
+
+def test_download_overwrite(token, command_id):
+    s = subprocess.Popen(['iq-get', token, str(command_id)], stdout=subprocess.PIPE,
+                                                            stdin=subprocess.PIPE)
+    s.communicate("y")
+    output_filename = 'full_result_%s(2).csv' % (str(command_id),)
+    output_path = '%s%s' % (os.path.expanduser('~/Desktop/'), output_filename,)
+    assert not os.path.exists(output_path)
+    return
+
+def download_with_filename(token, command_id):
+    output_filename = 'iq-get-custom-filename.csv'
+    s = subprocess.check_call(['iq-get', token, str(command_id), '-o', output_filename])
+    output_path = '%s%s' % (os.path.expanduser('~/Desktop/'), output_filename,)
+    assert os.path.exists(output_path)
+    with open(output_path) as f:
+        reader = csv.reader(f)
+        l = reader.next()
+        assert len(l) == 5
+    return output_path
+
+def download_with_tabs(token, command_id):
+    s = subprocess.check_call(['iq-get', token, str(command_id), '-d', '\t'])
+    output_filename = 'full_result_%s.tsv' % (str(command_id),)
+    output_path = '%s%s' % (os.path.expanduser('~/Desktop/'), output_filename,)
+    assert os.path.exists(output_path)
+    with open(output_path) as f:
+        reader = csv.reader(f, delimiter='\t')
+        l = reader.next()
+        assert len(l) == 5
+    return output_path
 
 
 def main(args):
@@ -36,7 +88,13 @@ def main(args):
         hc = setup()
         command_id = hc.id
     print args.Token, command_id
-    test_download_without_filename(args.Token, command_id)
+    created_files = []
+    created_files.append(test_download_without_filename(args.Token, command_id))
+    created_files.append(test_download_no_overwrite(args.Token, command_id))
+    test_download_overwrite(args.Token, command_id)
+    created_files.append(download_with_filename(args.Token, command_id))
+    created_files.append(download_with_tabs(args.Token, command_id))
+    teardown(created_files)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
