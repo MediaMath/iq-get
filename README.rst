@@ -6,7 +6,7 @@ Installation
 ------------
 The only way to install iq-get, currently, is to install from source.
 
-* Download the source code: ``git clone git@github.com:MediaMath/get-qubole-results.git``
+* Download the source code: ``git clone git@github.com:MediaMath/iq-get.git``
 * Run the following commands (installing the project may require root)
   ::
     $ cd iq-get
