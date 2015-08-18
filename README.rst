@@ -9,7 +9,7 @@ The only way to install iq-get, currently, is to install from source.
 * Download the source code: ``git clone git@github.com:MediaMath/get-qubole-results.git``
 * Run the following commands (installing the project may require root)
   ::
-    $ cd get-qubole-results
+    $ cd iq-get
     $ python setup.py install
 
 
