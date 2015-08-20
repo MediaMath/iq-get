@@ -9,7 +9,7 @@ requirements = ['qds_sdk == 1.3.4']
 
 setup(
     name='iq-get',
-    version='0.1.0',
+    version='1.0.0',
     author='MediaMath',
     author_email='rsawyer@mediamath.com',
     description=('Python script to download Hive command results from Qubole Data Service (QDS)'),

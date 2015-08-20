@@ -4,7 +4,14 @@ A way to retrieve large Hive results from Qubole Data Service (QDS), made for cl
 
 Installation
 ------------
-The only way to install iq-get, currently, is to install from source.
+From PyPI
+---------
+IQ-Get is available on `PyPI <https://pypi.python.org/pypi/IQ-Get>`_.
+``pip install iq-get``
+
+
+From Source
+-----------
 
 * Download the source code: ``git clone git@github.com:MediaMath/iq-get.git``
 * Run the following commands (installing the project may require root)
