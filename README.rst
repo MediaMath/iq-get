@@ -4,9 +4,16 @@ A way to retrieve large Hive results from Qubole Data Service (QDS), made for cl
 
 Installation
 ------------
+
+-------------
+Windows Users
+-------------
+To get Python, we recommend either the `Anaconda Python Shell <http://continuum.io/downloads>`_ or `Cygwin <https://www.cygwin.com/>`_. If using Cygwin, you may first need to run the command ``easy_install pip`` before installing this project.
+
 From PyPI
 ---------
 IQ-Get is available on `PyPI <https://pypi.python.org/pypi/IQ-Get>`_.
+
 ``pip install iq-get``
 
 
@@ -18,6 +25,7 @@ From Source
   ::
     $ cd iq-get
     $ python setup.py install
+
 
 
 Usage
