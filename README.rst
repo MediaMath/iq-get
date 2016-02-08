@@ -14,8 +14,9 @@ Windows-only Anaconda Python Shell step by step directions:
 
 1. Please download the Anaconda Python Shell.
 2. Next, copy iq-get from your local Git (typically in your …\\GitHub\\iq-get\\bin) folder and save it to the Anaconda directory (this is typically in C:\\\\Users\\<username>\\AppData\\Local\\Continuum\\Anaconda, with <username> replaced with your username. NOTE: This folder will not exist until Anaconda has been installed).
-3. Open up the Anaconda shell and enter the command ``pip install qds_sd`` and wait for the process to finish.
-4. To run the Python program, enter: ``python iq-get <qubole_api_token> <query_ID>``
+3. Open up the Anaconda shell and set the shell working directory to the Anacondo directory containing the iq-get script that you placed in step 2. Set the shell working directory by entering: cd C:\\\\Users\\<username>\\AppData\\Local\\Continuum\\Anaconda (or the appropriate path locating your Anconda directory).   
+4. Enter the command ``pip install qds_sdk`` and wait for the process to finish.
+5. To run the Python program, enter: ``python iq-get <qubole_api_token> <query_ID>``
 
 
 From PyPI
